@@ -253,7 +253,189 @@
           <h1>Найдите словесные пары</h1>
           <p>Называйте номера карточек, запоминайте слова и собирайте паронимические пары. За совпадение — балл и ещё один ход.</p>
           <div class="hero-cards" aria-hidden="true">
-            <div class="mi…2503 tokens truncated…ние"],
+            <div class="mini-card">романтический</div>
+            <div class="mini-link">↔</div>
+            <div class="mini-card">романтичный</div>
+          </div>
+        </div>
+
+        <div class="team-panel">
+          <div class="panel-kicker">Подготовка к игре</div>
+          <h2>Соберите команды</h2>
+          <p class="hint">Введите от 2 до 6 названий. Очерёдность ходов соответствует списку.</p>
+          <div class="field-size">
+            <label for="fieldSize">Размер игрового поля</label>
+            <div class="field-size-row">
+              <select id="fieldSize">
+                <option value="3x4">3 × 4</option>
+                <option value="3x6">3 × 6</option>
+                <option value="3x8">3 × 8</option>
+                <option value="3x10">3 × 10</option>
+                <option value="4x4">4 × 4</option>
+                <option value="4x5">4 × 5</option>
+                <option value="4x6">4 × 6</option>
+                <option value="4x7">4 × 7</option>
+                <option value="4x8">4 × 8</option>
+                <option value="4x9">4 × 9</option>
+                <option value="4x10">4 × 10</option>
+                <option value="5x4">5 × 4</option>
+                <option value="5x6">5 × 6</option>
+                <option value="5x8">5 × 8</option>
+                <option value="5x10" selected>5 × 10</option>
+              </select>
+              <span id="fieldSummary" class="field-summary">50 карточек · 25 пар</span>
+            </div>
+          </div>
+          <div id="teamInputs" class="team-inputs"></div>
+          <button id="addTeamButton" class="add-team" type="button">＋ Добавить команду</button>
+          <div class="setup-actions">
+            <button id="startButton" class="primary" type="button">Начать игру</button>
+            <button id="continueButton" class="secondary hidden" type="button">Продолжить сохранённую игру</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="rules">
+        <div class="rule"><div class="rule-num">1</div><strong>Назовите два номера</strong><span>Учитель по очереди открывает выбранные карточки на экране.</span></div>
+        <div class="rule"><div class="rule-num">2</div><strong>Соберите пару</strong><span>Если слова входят в один ряд паронимов, команда получает 1 балл.</span></div>
+        <div class="rule"><div class="rule-num">3</div><strong>Продолжайте ход</strong><span>Пара даёт ещё одну попытку. Ошибка передаёт ход следующей команде.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="gameScreen" class="screen game-screen hidden">
+    <header class="game-topbar">
+      <div class="compact-brand"><span class="brand-mark">Аа</span><span>МЕМО «Паронимы»</span></div>
+      <div id="turnBanner" class="turn-banner">
+        <span class="turn-label">Сейчас ходит</span>
+        <span class="turn-team"><i class="turn-dot"></i><span id="turnTeamName"></span></span>
+      </div>
+      <div class="top-actions">
+        <button id="fullscreenButton" class="top-button" type="button" title="Полноэкранный режим">⛶ <span>Во весь экран</span></button>
+        <button id="finishButton" class="top-button" type="button" title="Завершить игру">■ <span>Завершить</span></button>
+      </div>
+    </header>
+
+    <main class="game-layout">
+      <aside class="sidebar">
+        <h2 class="side-title">Счёт команд</h2>
+        <div id="scoreList" class="score-list"></div>
+        <div class="stats-box">
+          <div class="stat-row"><span>Найдено пар</span><strong id="matchStat">0 / 25</strong></div>
+          <div class="stat-row"><span>Сделано ходов</span><strong id="moveStat">0</strong></div>
+          <div class="progress-track"><div id="progressFill" class="progress-fill"></div></div>
+        </div>
+        <div class="teacher-tip"><strong>Учителю:</strong> после несовпадения слова останутся видны. Закройте их кнопкой внизу, когда все успеют посмотреть.</div>
+      </aside>
+
+      <div class="board-shell">
+        <div id="board" class="board" aria-label="Игровое поле"></div>
+      </div>
+    </main>
+
+    <div id="actionDock" class="action-dock hidden" role="status">
+      <div class="action-copy"><strong id="actionTitle"></strong><span id="actionText"></span></div>
+      <button id="actionButton" class="dock-button" type="button"></button>
+    </div>
+    <div id="pairToast" class="pair-toast" role="status">Пара! +1 балл · ход продолжается</div>
+  </section>
+
+  <section id="resultsScreen" class="screen results-screen hidden">
+    <div class="results-wrap">
+      <div class="results-head">
+        <div class="brand-mark">✓</div>
+        <h2>Игра завершена!</h2>
+        <p id="winnerLine"></p>
+      </div>
+      <div id="podium" class="podium"></div>
+      <div class="dashboard">
+        <div class="dash-card"><span>Победитель</span><strong id="dashWinner">—</strong></div>
+        <div class="dash-card"><span>Найдено пар</span><strong id="dashPairs">—</strong></div>
+        <div class="dash-card"><span>Точность</span><strong id="dashAccuracy">—</strong></div>
+        <div class="dash-card"><span>Время игры</span><strong id="dashTime">—</strong></div>
+      </div>
+      <div id="resultTable" class="result-table"></div>
+      <div class="results-actions">
+        <button id="newRoundButton" class="primary" type="button">Новый раунд с теми же командами</button>
+        <button id="changeTeamsButton" class="soft-button" type="button">Изменить команды</button>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    "use strict";
+
+    const PAIRS = [
+      ["Абонемент", "абонент"],
+      ["Авторитарный", "авторитетный"],
+      ["Адресант", "адресат"],
+      ["Артистический", "артистичный"],
+      ["Бедный", "бедственный"],
+      ["Безликий", "безличный"],
+      ["Безответный", "безответственный"],
+      ["Благодарный", "благодарственный"],
+      ["Благотворительный", "благотворный"],
+      ["Болотистый", "болотный"],
+      ["Будний", "будничный"],
+      ["Ванна", "ванная"],
+      ["Вдох", "вздох"],
+      ["Вековой", "вечный"],
+      ["Величие", "величина"],
+      ["Возбуждать", "побуждать"],
+      ["Враждебный", "вражеский"],
+      ["Выбирать", "избирать"],
+      ["Выгода", "выгодность"],
+      ["Высокий", "высотный"],
+      ["Гарантийный", "гарантированный"],
+      ["Гармонический", "гармоничный"],
+      ["Глинистый", "глиняный"],
+      ["Гордость", "гордыня"],
+      ["Гуманизм", "гуманность"],
+      ["Демократический", "демократичный"],
+      ["Дипломант", "дипломат"],
+      ["Дипломатический", "дипломатичный"],
+      ["Длинный", "длительный"],
+      ["Добротный", "добрый"],
+      ["Доверительный", "доверчивый"],
+      ["Дождевой", "дождливый"],
+      ["Драматический", "драматичный"],
+      ["Желанный", "желательный"],
+      ["Жестокий", "жёсткий"],
+      ["Жизненный", "житейский"],
+      ["Жилищный", "жилой"],
+      ["Зачинатель", "зачинщик"],
+      ["Звериный", "зверский"],
+      ["Звуковой", "звучный"],
+      ["Зрительный", "зрительский"],
+      ["Изобретательный", "изобретательский"],
+      ["Информативный", "информационный"],
+      ["Иронический", "ироничный"],
+      ["Искусный", "искусственный"],
+      ["Исполнительный", "исполнительский"],
+      ["Исходный", "исходящий"],
+      ["Каменистый", "каменный"],
+      ["Комфортабельный", "комфортный"],
+      ["Конный", "конский"],
+      ["Костный", "костяной"],
+      ["Ледовый", "ледяной"],
+      ["Лесистый", "лесной"],
+      ["Личностный", "личный"],
+      ["Микроскопический", "микроскопичный"],
+      ["Наблюдательный", "наблюдательский"],
+      ["Надеть", "одеть"],
+      ["Наличие", "наличность"],
+      ["Напоминание", "упоминание"],
+      ["Невежа", "невежда"],
+      ["Неудачный", "неудачливый"],
+      ["Обвинённый", "обвинительный"],
+      ["Обрывок", "отрывок"],
+      ["Обсудить", "осудить"],
+      ["Обхватить", "охватить"],
+      ["Оклик", "отклик"],
+      ["Опасливый", "опасный"],
+      ["Органический", "органичный"],
+      ["Отборный", "отборочный"],
+      ["Отклонение", "уклонение"],
       ["Отклониться", "уклониться"],
       ["Отличать(-ся)", "различать(-ся)"],
       ["Отличие", "различие"],
